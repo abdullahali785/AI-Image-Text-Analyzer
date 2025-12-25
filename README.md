@@ -1,6 +1,6 @@
-# ImageTextAnalyzer
+# AI Image Text Analyzer
 
-**ImageTextAnalyzer** is a simple full-stack application that extracts text from images using OCR (EasyOCR + Tesseract) and explains the content in natural language using OpenAI's GPT models.
+**AI Image Text Analyzer** is a simple full-stack application that extracts text from images using OCR (EasyOCR + Tesseract) and explains the content in natural language using OpenAI's GPT models.
 
 The project uses:
 
