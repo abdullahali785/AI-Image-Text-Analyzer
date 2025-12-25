@@ -1,14 +1,21 @@
-# 🧠 AI Image Text Analyzer
+# ImageTextAnalyzer
 
-A Python tool that takes an image as input, extracts any text it contains using two OCR engines (EasyOCR and PyTesseract), and generates an AI-powered explanation of the text using OpenAI's GPT model.
+**ImageTextAnalyzer** is a simple full-stack application that extracts text from images using OCR (EasyOCR + Tesseract) and explains the content in natural language using OpenAI's GPT models.
+
+The project uses:
+
+- **Backend:** Python, FastAPI, OCR (Tesseract + EasyOCR), OpenAI API  
+- **Frontend:** Plain HTML, Bootstrap 5, Vanilla JavaScript  
+- **Goal:** Upload an image → Extract text → Explain meaning → Display results
 
 ---
 
-## 🔍 What It Does
+## Features
 
-- Reads an image from your local system
-- Extracts text using both **EasyOCR** and **PyTesseract**
-- Combines the results and sends a prompt to **OpenAI GPT** (via API)
-- Returns a friendly, natural-language explanation of the image content
+- Extracts text from images using **EasyOCR** and **pytesseract**
+- Combines OCR results and cleans them
+- Generates human-readable explanations using **OpenAI LLM**
+- Minimal frontend with **Bootstrap 5**
+- Ready for local development and deployment
 
 ---
