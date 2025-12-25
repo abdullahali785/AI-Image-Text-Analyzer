@@ -1,7 +1,7 @@
-packaging==24.2
-pillow==11.1.0
-pytesseract==0.3.13
-setuptools==75.8.0
-wheel==0.45.1
-easyocr==1.7.2
-openai==2.14.0
+openai>=1.0.0
+pillow
+pytesseract
+easyocr
+torch
+torchvision
+numpy
