@@ -1,48 +1,22 @@
-def AI(text_EasyOCR, text_pytesseract):
-    import openai
+from openai import OpenAI
+import pytesseract, easyocr
+from PIL import Image
 
-    openai.api_key = open('api_key.csv','r').read()
-    user_input = f"I found an image that says '{text_EasyOCR}' using 'EasyOCR' and '{text_pytesseract}' using 'pytesseract'. Explain the content of the image, including the text it says."
-    # user_input = input('Prompt: ')
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": user_input}
-            ]
-        )
-    return(response.choices[0].message["content"])
+client = OpenAI(api_key=open("api_key.csv").read().strip())
+image_path = "Images/short-inspirational-quotes-7.jpg"
 
-#print(AI())
 
-image_path = '/Users/abdullahali/Downloads/sqz78.jpg'
-
-def image_to_text_pytesseract(image_path):
-    from PIL import Image
-    import pytesseract
-
-    # Load image
+def text_pytesseract(image_path):
     image = Image.open(image_path)
-    # Extract text using pytesseract
-    extracted_text = pytesseract.image_to_string(image)
-    return extracted_text
+    return pytesseract.image_to_string(image)
 
-#print(image_to_text_pytesseract())
-
-def image_to_text_easyocr(image_path):
-    import easyocr
+def text_easyocr(image_path):
     reader = easyocr.Reader(['en'])
-    result = reader.readtext(image_path, detail=0)
-    return result 
+    return reader.readtext(image_path, detail=0)
 
-#print(image_to_text_easyocr())
 
 def pytesseract_tool(image_path):
-    from PIL import Image
-    import pytesseract
-
-    # Load image
     image = Image.open(image_path)
-    # Extract text using pytesseract
     extracted_text = pytesseract.image_to_string(image)
     
     import openai
@@ -51,17 +25,11 @@ def pytesseract_tool(image_path):
     user_input = f"Hi, I found an image that says '{extracted_text}'. Can you please explain the image in words."
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": user_input}
-            ]
-        )
+        messages=[{"role": "user", "content": user_input}]
+    )
     return(response.choices[0].message["content"])
-    #return user_input
-
-#print(pytesseract_tool('/Users/abdullahali/Downloads/bold-d-thursday-text-against-clean-white-background-bold-d-thursday-text-against-clean-white-background-331064540.jpg.webp'))
 
 def easyocr_tool(image_path):
-    import easyocr
     reader = easyocr.Reader(['en'])
     result = reader.readtext(image_path, detail=0)
 
@@ -71,19 +39,33 @@ def easyocr_tool(image_path):
     user_input = f"Hi, I found an image that says '{result}'. Can you please explain the image in words."
     response = openai.ChatCompletion.create(
         model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": user_input}
-            ]
-        )
+        messages=[{"role": "user", "content": user_input}]
+    )
     return(response.choices[0].message["content"])
 
-#print(easyocr_tool('/Users/abdullahali/Downloads/bold-d-thursday-text-against-clean-white-background-bold-d-thursday-text-against-clean-white-background-331064540.jpg.webp'))
+
+def AI(text_easyocr, text_pytesseract):
+    user_input = (
+        f"I found an image.\n\n"
+        f"EasyOCR detected: {text_easyocr}\n"
+        f"Pytesseract detected: {text_pytesseract}\n\n"
+        f"Explain the text and what the image likely represents."
+    )
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "user", "content": user_input}
+        ]
+    )
+
+    return response.choices[0].message.content
+
 
 def image_to_text(image_path):
-    result = image_to_text_easyocr(image_path)
+    easyocr = text_easyocr(image_path)
+    pytesseract = text_pytesseract(image_path)
 
-    extracted_text = image_to_text_pytesseract(image_path)
+    return AI(easyocr, pytesseract)
 
-    return(AI(result, extracted_text))
-
-print(image_to_text('/Users/abdullahali/Downloads/sqz78.jpg'))
+print(image_to_text("Images/short-inspirational-quotes-7.jpg"))
