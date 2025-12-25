@@ -1,7 +1,0 @@
-openai>=1.0.0
-pillow
-pytesseract
-easyocr
-torch
-torchvision
-numpy
